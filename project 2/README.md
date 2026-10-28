@@ -12,5 +12,5 @@ npm run build    # production build into dist/
 
 ## Edit the content
 
-All text, links, projects and skills live in `src/data/site.ts`.
-Start by replacing the email address and the three sample projects.
+All text, links, experience and skills live in `src/data/site.ts`.
+Update your experience, skills and contact details there.

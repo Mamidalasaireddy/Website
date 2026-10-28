@@ -1,33 +1,33 @@
 import { useEffect, useRef, useState } from 'react';
 
-const layers = [
+const steps = [
   {
-    name: 'Angular',
-    role: 'The interface people use',
-    code: "http.get('/api/orders/42')",
+    name: 'EDI 810',
+    role: 'The vendor invoice arrives from the trading partner',
+    code: 'monitored in WE02 and WE05',
   },
   {
-    name: 'Spring Boot',
-    role: 'REST endpoints and request handling',
-    code: '@GetMapping("/orders/{id}")',
+    name: 'SAP AIF',
+    role: 'The invoice is validated and mapped; errors are fixed and reprocessed',
+    code: 'touchless, or fix and reprocess',
   },
   {
-    name: 'Java',
-    role: 'Business rules and services',
-    code: 'orderService.findById(id)',
+    name: 'Invoice verification',
+    role: 'Three-way match against the purchase order and goods receipt',
+    code: 'MIRO, MIR7, GR/IR clearing',
   },
   {
-    name: 'AWS',
-    role: 'Hosting, storage and deployment',
-    code: 'deployed and running on AWS',
+    name: 'Payment run',
+    role: 'Approved invoices are paid by ACH, wire or check',
+    code: 'F110, with EDI 820 remittance',
   },
 ];
 
-export function StackDiagram() {
+export function InvoiceFlow() {
   const [active, setActive] = useState(0);
   const userTookOver = useRef(false);
 
-  // One short sequence on load: the request travels down the stack once.
+  // One short sequence on load: the invoice moves through the process once.
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
@@ -39,7 +39,7 @@ export function StackDiagram() {
         return;
       }
       step += 1;
-      if (step < layers.length) {
+      if (step < steps.length) {
         setActive(step);
       } else {
         window.clearInterval(timer);
@@ -57,11 +57,11 @@ export function StackDiagram() {
 
   return (
     <figure>
-      <div role="group" aria-label="How a request moves through the stack" className="flex flex-col">
-        {layers.map((layer, index) => {
+      <div role="group" aria-label="How a vendor invoice moves through SAP" className="flex flex-col">
+        {steps.map((step, index) => {
           const isActive = index === active;
           return (
-            <div key={layer.name} className="flex flex-col">
+            <div key={step.name} className="flex flex-col">
               <button
                 type="button"
                 onClick={() => select(index)}
@@ -73,7 +73,7 @@ export function StackDiagram() {
                 }`}
               >
                 <span className="flex items-center justify-between gap-4">
-                  <span className="font-display text-xl font-bold tracking-tight">{layer.name}</span>
+                  <span className="font-display text-xl font-bold tracking-tight">{step.name}</span>
                   <span
                     aria-hidden="true"
                     className={`h-2.5 w-2.5 rounded-full transition-colors duration-300 ${
@@ -82,17 +82,17 @@ export function StackDiagram() {
                   />
                 </span>
                 <span className={`mt-1 block text-sm ${isActive ? 'text-paper/80' : 'text-muted'}`}>
-                  {layer.role}
+                  {step.role}
                 </span>
                 <span
                   className={`mt-3 block font-mono text-sm transition-colors duration-300 ${
                     isActive ? 'text-signal' : 'text-muted/70'
                   }`}
                 >
-                  {layer.code}
+                  {step.code}
                 </span>
               </button>
-              {index < layers.length - 1 && (
+              {index < steps.length - 1 && (
                 <span aria-hidden="true" className="mx-auto h-4 w-px bg-line" />
               )}
             </div>
@@ -100,7 +100,7 @@ export function StackDiagram() {
         })}
       </div>
       <figcaption className="mt-4 text-sm text-muted">
-        Select a layer to see what it does in a typical request.
+        Select a step to see what happens to a vendor invoice in Accounts Payable.
       </figcaption>
     </figure>
   );

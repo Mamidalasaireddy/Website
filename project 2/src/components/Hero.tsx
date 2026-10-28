@@ -1,6 +1,6 @@
 import { Github, Linkedin } from 'lucide-react';
 import { profile } from '../data/site';
-import { StackDiagram } from './StackDiagram';
+import { InvoiceFlow } from './InvoiceFlow';
 
 export function Hero() {
   return (
@@ -21,10 +21,10 @@ export function Hero() {
               Get in touch
             </a>
             <a
-              href="#projects"
+              href="#experience"
               className="rounded-md border border-ink/20 px-6 py-3 font-medium transition-colors hover:border-ink"
             >
-              View projects
+              View experience
             </a>
           </div>
 
@@ -52,7 +52,7 @@ export function Hero() {
           </div>
         </div>
 
-        <StackDiagram />
+        <InvoiceFlow />
       </div>
     </section>
   );

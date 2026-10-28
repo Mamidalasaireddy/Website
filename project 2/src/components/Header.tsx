@@ -1,7 +1,7 @@
 import { profile } from '../data/site';
 
 const links = [
-  { label: 'Projects', href: '#projects' },
+  { label: 'Experience', href: '#experience' },
   { label: 'Skills', href: '#skills' },
   { label: 'Contact', href: '#contact' },
 ];

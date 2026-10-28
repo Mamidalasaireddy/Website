@@ -8,12 +8,20 @@ export function Skills() {
         {skills.map((group, index) => (
           <div
             key={group.category}
-            className={`grid gap-1 py-6 sm:grid-cols-[200px_1fr] sm:gap-8 ${
+            className={`grid gap-2 py-6 sm:grid-cols-[200px_1fr] sm:gap-8 ${
               index === 0 ? 'pt-0' : 'border-t border-line'
             }`}
           >
             <dt className="font-display text-lg font-bold tracking-tight">{group.category}</dt>
-            <dd className="text-lg text-muted">{group.items.join(', ')}</dd>
+            <dd>
+              <ul className="flex flex-wrap gap-x-2 gap-y-1 text-muted">
+                {group.items.map((item) => (
+                  <li key={item} className="after:ml-2 after:text-muted/40 after:content-['/'] last:after:hidden">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </dd>
           </div>
         ))}
       </dl>
