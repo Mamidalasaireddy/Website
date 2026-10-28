@@ -1,92 +1,98 @@
-import React, { useState } from 'react';
-import { Mail, MessageSquare, Send } from 'lucide-react';
+import { useState } from 'react';
+import type { FormEvent } from 'react';
+import { Mail, Send } from 'lucide-react';
+import { profile } from '../data/site';
+import { Section } from './Section';
+
+const fieldClass =
+  'w-full rounded-md border border-line bg-white px-4 py-3 text-ink placeholder:text-muted/60 focus-visible:border-accent focus-visible:outline-accent';
 
 export function Contact() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
-  });
+  const [form, setForm] = useState({ name: '', email: '', message: '' });
+  const [opened, setOpened] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // The form opens the visitor's email app with the message filled in,
+  // so it works without a server.
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log('Form submitted:', formData);
+    const subject = encodeURIComponent(`Message from ${form.name} via your portfolio`);
+    const body = encodeURIComponent(`${form.message}\n\nFrom: ${form.name} (${form.email})`);
+    window.location.href = `mailto:${profile.email}?subject=${subject}&body=${body}`;
+    setOpened(true);
   };
 
   return (
-    <section id="contact" className="py-20 bg-gray-900">
-      <div className="container mx-auto px-6">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl font-bold text-white mb-12 text-center">Get in Touch</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-            <div>
-              <h3 className="text-2xl font-semibold text-white mb-6">Let's Connect</h3>
-              <p className="text-gray-400 mb-8">
-                I'm always open to discussing new projects, creative ideas, or opportunities to be part of your visions.
-              </p>
-              <div className="space-y-4">
-                <div className="flex items-center gap-4 text-gray-400">
-                  <Mail size={20} />
-                  <span>your.email@example.com</span>
-                </div>
-                <div className="flex items-center gap-4 text-gray-400">
-                  <MessageSquare size={20} />
-                  <span>Available for freelance opportunities</span>
-                </div>
-              </div>
-            </div>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-400 mb-2">
-                  Name
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white"
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-400 mb-2">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white"
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-400 mb-2">
-                  Message
-                </label>
-                <textarea
-                  id="message"
-                  value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  rows={4}
-                  className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white"
-                  required
-                />
-              </div>
-              <button
-                type="submit"
-                className="w-full bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition-colors"
-              >
-                <Send size={20} />
-                Send Message
-              </button>
-            </form>
-          </div>
+    <Section id="contact" title="Contact">
+      <p className="max-w-xl text-lg text-muted">
+        Have a role, a project or a question? Send a message and I will reply by email.
+      </p>
+      <a
+        href={`mailto:${profile.email}`}
+        className="mt-6 inline-flex items-center gap-3 font-display text-2xl font-bold tracking-tight transition-colors hover:text-accent"
+      >
+        <Mail size={24} aria-hidden="true" />
+        {profile.email}
+      </a>
+
+      <form onSubmit={handleSubmit} className="mt-12 max-w-xl space-y-6">
+        <div>
+          <label htmlFor="name" className="mb-2 block text-sm font-medium">
+            Your name
+          </label>
+          <input
+            id="name"
+            type="text"
+            autoComplete="name"
+            value={form.name}
+            onChange={(e) => setForm({ ...form, name: e.target.value })}
+            className={fieldClass}
+            required
+          />
         </div>
-      </div>
-    </section>
+        <div>
+          <label htmlFor="email" className="mb-2 block text-sm font-medium">
+            Your email
+          </label>
+          <input
+            id="email"
+            type="email"
+            autoComplete="email"
+            value={form.email}
+            onChange={(e) => setForm({ ...form, email: e.target.value })}
+            className={fieldClass}
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="message" className="mb-2 block text-sm font-medium">
+            Message
+          </label>
+          <textarea
+            id="message"
+            rows={5}
+            value={form.message}
+            onChange={(e) => setForm({ ...form, message: e.target.value })}
+            className={fieldClass}
+            required
+          />
+        </div>
+        <button
+          type="submit"
+          className="inline-flex items-center gap-2 rounded-md bg-ink px-6 py-3 font-medium text-paper transition-colors hover:bg-accent"
+        >
+          <Send size={18} aria-hidden="true" />
+          Send message
+        </button>
+        {opened && (
+          <p role="status" className="text-sm text-muted">
+            Your email app should open with the message ready to send. If it does not, write to{' '}
+            <a href={`mailto:${profile.email}`} className="font-medium text-ink underline underline-offset-4">
+              {profile.email}
+            </a>
+            .
+          </p>
+        )}
+      </form>
+    </Section>
   );
 }

@@ -1,51 +1,58 @@
-import React from "react";
+import { Github, Linkedin } from 'lucide-react';
+import { profile } from '../data/site';
+import { StackDiagram } from './StackDiagram';
 
-const Hero: React.FC = () => {
+export function Hero() {
   return (
-    <div className="hero">
-      <h1 className="text-4xl font-bold text-center">Sai Kumar Reddy Mamidala</h1>
-      <p className="text-xl text-center mt-2">
-        Full Stack Developer | Java, Spring Boot, Angular, AWS
-      </p>
-    </div>
-  );
-};
-
-export default Hero;
-    <section className="min-h-screen relative bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white">
-      <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80')] opacity-20 bg-cover bg-center" />
-      <div className="relative container mx-auto px-6 pt-32 pb-16">
-        <div className="max-w-3xl">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
-            Turning Ideas Into
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400"> Digital Reality</span>
+    <section id="top" className="mx-auto max-w-6xl px-6 py-16 md:py-24">
+      <div className="grid items-center gap-14 lg:grid-cols-[1.15fr_0.85fr] lg:gap-20">
+        <div>
+          <h1 className="font-display text-5xl font-bold leading-[1.04] tracking-tight sm:text-6xl lg:text-[4.25rem]">
+            {profile.name}
           </h1>
-          <p className="text-xl md:text-2xl text-gray-300 mb-8">
-            Full-stack developer crafting exceptional digital experiences through clean code and innovative solutions.
-          </p>
-          <div className="flex gap-4 mb-12">
-            <a href="#contact" className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-3 rounded-full font-medium transition-colors">
-              Get in Touch
+          <p className="mt-6 max-w-xl text-xl font-medium">{profile.role}</p>
+          <p className="mt-4 max-w-xl text-lg text-muted">{profile.intro}</p>
+
+          <div className="mt-10 flex flex-wrap items-center gap-4">
+            <a
+              href="#contact"
+              className="rounded-md bg-ink px-6 py-3 font-medium text-paper transition-colors hover:bg-accent"
+            >
+              Get in touch
             </a>
-            <a href="#projects" className="border border-white/20 hover:border-white/40 px-8 py-3 rounded-full font-medium transition-colors">
-              View Projects
+            <a
+              href="#projects"
+              className="rounded-md border border-ink/20 px-6 py-3 font-medium transition-colors hover:border-ink"
+            >
+              View projects
             </a>
           </div>
-          <div className="flex gap-6">
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
-              <Github size={24} />
+
+          <div className="mt-10 flex gap-5 text-muted">
+            <a
+              href={profile.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub profile"
+              className="transition-colors hover:text-ink"
+            >
+              <Github size={22} />
             </a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
-              <Linkedin size={24} />
-            </a>
-            <a href="mailto:your.email@example.com" className="text-gray-400 hover:text-white transition-colors">
-              <Mail size={24} />
-            </a>
+            {profile.linkedin && (
+              <a
+                href={profile.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn profile"
+                className="transition-colors hover:text-ink"
+              >
+                <Linkedin size={22} />
+              </a>
+            )}
           </div>
         </div>
-      </div>
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-        <ChevronDown size={32} className="text-white/50" />
+
+        <StackDiagram />
       </div>
     </section>
   );

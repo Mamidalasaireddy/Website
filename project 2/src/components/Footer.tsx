@@ -1,25 +1,37 @@
-import React from 'react';
-import { Github, Linkedin, Mail, Heart } from 'lucide-react';
+import { Github, Linkedin, Mail } from 'lucide-react';
+import { profile } from '../data/site';
 
 export function Footer() {
   return (
-    <footer className="bg-gray-900 border-t border-gray-800">
-      <div className="container mx-auto px-6 py-12">
-        <div className="flex flex-col md:flex-row justify-between items-center">
-          <div className="text-gray-400 mb-4 md:mb-0">
-            © {new Date().getFullYear()} Your Name. Built with <Heart className="inline-block w-4 h-4 text-red-500" />
-          </div>
-          <div className="flex gap-6">
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
-              <Github size={20} />
-            </a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
+    <footer className="border-t border-line">
+      <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-6 px-6 py-10 sm:flex-row sm:items-center">
+        <p className="text-sm text-muted">
+          © {new Date().getFullYear()} {profile.name}
+        </p>
+        <div className="flex gap-5 text-muted">
+          <a
+            href={profile.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub profile"
+            className="transition-colors hover:text-ink"
+          >
+            <Github size={20} />
+          </a>
+          {profile.linkedin && (
+            <a
+              href={profile.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn profile"
+              className="transition-colors hover:text-ink"
+            >
               <Linkedin size={20} />
             </a>
-            <a href="mailto:your.email@example.com" className="text-gray-400 hover:text-white transition-colors">
-              <Mail size={20} />
-            </a>
-          </div>
+          )}
+          <a href={`mailto:${profile.email}`} aria-label="Send an email" className="transition-colors hover:text-ink">
+            <Mail size={20} />
+          </a>
         </div>
       </div>
     </footer>
